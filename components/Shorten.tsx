@@ -1,9 +1,10 @@
 "use client";
-import { useState } from "react";
+import React, { useState, FormEvent } from "react";
 
 const Shorten = () => {
   const [errorMessage, setErrorMessage] = useState(false);
   const [message, setMessage] = useState("");
+  const [url, setUrl] = useState("");
 
   function validURL(str: string) {
     var pattern = new RegExp(
@@ -21,11 +22,11 @@ const Shorten = () => {
   function handleForm(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (e.target[0].value === "") {
+    if (url === "") {
       setErrorMessage(true);
       setMessage("Please enter something");
       return;
-    } else if (!validURL(e.target[0].value)) {
+    } else if (!validURL(url)) {
       setErrorMessage(true);
       setMessage("Please enter a valid URL");
       return;
@@ -48,6 +49,8 @@ const Shorten = () => {
               errorMessage ? "border-red" : ""
             }`}
             placeholder="Shorten a link here"
+            value={url}
+            onChange={(e) => setUrl(e.target.value)}
           />
           <button className="px-10 py-3 text-white bg-cyan rounded-lg hover:bg-cyanLight focus:outline-none md:py-2">
             Shorten It!
